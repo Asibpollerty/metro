@@ -1,0 +1,241 @@
+<!doctype html>
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Метро — Кудряшовский & Приобский — Красная линия</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f0f12;
+      --card:#0f1720;
+      --muted:#9aa6b2;
+      --accent:#ff2b2b; /* ярко-красный */
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#071017 0%, #07131a 60%);color: #e6f0f6;font-family: 'Montserrat',system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;}
+    header{padding:48px 6vw 28px;display:flex;align-items:center;gap:28px}
+    .logo{display:flex;flex-direction:column;gap:6px}
+    .logo h1{font-family:'Playfair Display',serif;margin:0;color:white;font-size:36px;letter-spacing:0.6px}
+    .logo p{margin:0;color:var(--muted);font-size:14px}
+    .hero{display:flex;gap:48px;align-items:center;width:100%;padding:20px 6vw}
+    .panel{background:linear-gradient(180deg,var(--glass), var(--glass-2));backdrop-filter: blur(6px);padding:28px;border-radius:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);max-width:760px}
+    .panel h2{margin:0 0 8px 0;font-size:22px}
+    .panel p{color:var(--muted);line-height:1.5}
+    .map-wrap{flex:1;display:flex;justify-content:center}
+    /* Red Line visual */
+    .line-card{width:520px;height:720px;border-radius:20px;padding:22px;background:linear-gradient(180deg,#081018 0%, #0c141a 100%);box-shadow:0 12px 40px rgba(8,12,20,0.7);position:relative;overflow:hidden}
+    .line-header{display:flex;align-items:center;gap:12px}
+    .line-badge{width:56px;height:56px;border-radius:12px;background:linear-gradient(180deg,var(--accent),#a51616);display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:18px;box-shadow:0 6px 18px rgba(255,43,43,0.18)}
+    .line-title{font-size:20px;font-weight:700}
+    .svg-wrap{margin-top:18px;display:flex;justify-content:center}svg{max-width:100%;height:auto}
+.station{cursor:pointer}
+
+footer{padding:28px 6vw;color:var(--muted);font-size:13px}
+
+/* Modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(3,6,9,0.6);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .22s ease}
+.modal{background:linear-gradient(180deg,#071018,#07121a);padding:26px;border-radius:14px;max-width:720px;width:92%;color:#eaf6ff;box-shadow:0 30px 80px rgba(0,0,0,0.7);transform:translateY(18px);transition:all .22s ease}
+.modal.show{transform:none}
+.modal-backdrop.show{opacity:1;pointer-events:auto}
+.modal h3{margin:0 0 8px 0;font-size:22px}
+.modal .meta{color:var(--muted);font-size:13px;margin-bottom:12px}
+.close-btn{background:transparent;border:0;color:var(--muted);font-weight:700;cursor:pointer}
+
+/* station label */
+.label{font-family:'Montserrat';font-weight:700;font-size:14px;fill:#fff}
+
+@media (max-width:880px){
+  .hero{flex-direction:column}
+  .line-card{width:92%;height:620px}
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>Красная линия — Метро Кудряшовский / Приобский</h1>
+      <p>Гид по станциям, история и стильный макет для GitHub-проекта</p>
+    </div>
+  </header>  <section class="hero">
+    <div class="panel">
+      <h2>Районы — Кудряшовский и Приобский</h2>
+      <p><strong>Кудряшовский</strong> — преимущественно жилой район с чередой современных кварталов, зелёных скверов и небольших озёр. Район вырос в начале XXI века: здесь сочетание тихих улиц, спортплощадок и локальных рынков. Метро в Кудряшовском планировалось как связующее звено для рабочих и студенческих потоков.</p>
+      <p style="margin-top:12px"><strong>Приобский</strong> — пригородная территория с развитой промышленной зоной на окраине и растущим жилым массивом. Приобский традиционно связан с транспортными коридорами — наличие станции метро ожидается как катализатор роста кафе, сервисов и новых жилых комплексов.</p><h3 style="margin-top:18px">Краткая история проекта</h3>
+  <p>Строительство метро на Красной линии началось в <strong>2010 году</strong>. Изначально планировалось открыть <strong>7 станций</strong>: первой стала <em>«Ольховая»</em>, за ней шли: <em>«Медик», «Спортивная», «Хуторок», «Железные врата», «Красная» и «Волейбольная поляна»</em>. Проект задумывался как быстрое сообщение между жилыми кварталами Кудряшовского и промышленными/спортивными объектами Приобского.</p>
+
+  <p style="margin-top:14px;color:var(--muted)"><em>Ниже — интерактивная карта линии. Нажмите на название станции, чтобы увидеть всплывающее окно с описанием.</em></p>
+</div>
+
+<div class="map-wrap">
+  <div class="line-card" role="region" aria-label="Красная линия">
+    <div class="line-header">
+      <div class="line-badge">К</div>
+      <div>
+        <div class="line-title">Красная линия — 7 станций</div>
+        <div style="color:var(--muted);font-size:13px">Кудряшовский ↔ Приобский</div>
+      </div>
+    </div>
+
+    <div class="svg-wrap">
+      <!-- Stylized vertical red metro line with stations -->
+      <svg viewBox="0 0 260 900" xmlns="http://www.w3.org/2000/svg" id="metro-svg">
+        <!-- line -->
+        <defs>
+          <filter id="glow"><feGaussianBlur stdDeviation="6" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect x="120" y="40" width="20" height="780" rx="10" fill="url(#grad)" />
+        <linearGradient id="grad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#ff5b5b" />
+          <stop offset="100%" stop-color="#b10f0f" />
+        </linearGradient>
+
+        <!-- stations (y positions chosen to look balanced) -->
+        <!-- Ольховая (top) -->
+        <g class="station" data-id="olhova" transform="translate(0,60)">
+          <circle cx="130" cy="0" r="14" fill="#fff" stroke="#b10f0f" stroke-width="4" filter="url(#glow)"/>
+          <text x="160" y="5" class="label">Ольховая</text>
+        </g>
+
+        <!-- Медик -->
+        <g class="station" data-id="medik" transform="translate(0,160)">
+          <circle cx="130" cy="0" r="12" fill="#fff" stroke="#b10f0f" stroke-width="3"/>
+          <text x="160" y="5" class="label">Медик</text>
+        </g>
+
+        <!-- Спортивная -->
+        <g class="station" data-id="sport" transform="translate(0,240)">
+          <circle cx="130" cy="0" r="12" fill="#fff" stroke="#b10f0f" stroke-width="3"/>
+          <text x="160" y="5" class="label">Спортивная</text>
+        </g>
+
+        <!-- Хуторок -->
+        <g class="station" data-id="hutorok" transform="translate(0,340)">
+          <circle cx="130" cy="0" r="12" fill="#fff" stroke="#b10f0f" stroke-width="3"/>
+          <text x="160" y="5" class="label">Хуторок</text>
+        </g>
+
+        <!-- Железные врата -->
+        <g class="station" data-id="zheleznye" transform="translate(0,470)">
+          <circle cx="130" cy="0" r="12" fill="#fff" stroke="#b10f0f" stroke-width="3"/>
+          <text x="160" y="5" class="label">Железные врата</text>
+        </g>
+
+        <!-- Красная -->
+        <g class="station" data-id="krasnaya" transform="translate(0,600)">
+          <circle cx="130" cy="0" r="12" fill="#fff" stroke="#b10f0f" stroke-width="3"/>
+          <text x="160" y="5" class="label">Красная</text>
+        </g>
+
+        <!-- Волейбольная поляна (bottom) -->
+        <g class="station" data-id="voley" transform="translate(0,740)">
+          <circle cx="130" cy="0" r="14" fill="#fff" stroke="#b10f0f" stroke-width="4" filter="url(#glow)"/>
+          <text x="160" y="5" class="label">Волейбольная поляна</text>
+        </g>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+  </section>  <footer>
+    <div>Создано для репозитория GitHub — адаптируйте и публикуйте как <code>index.html</code>.</div>
+  </footer>  <!-- Modal -->  <div id="modal" class="modal-backdrop" role="dialog" aria-hidden="true">
+    <div class="modal" role="document">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div>
+          <h3 id="modal-title">Станция</h3>
+          <div class="meta" id="modal-sub">Линия: Красная — Секция: —</div>
+        </div>
+        <div>
+          <button class="close-btn" id="modal-close">✕</button>
+        </div>
+      </div>
+      <div id="modal-body" style="margin-top:12px;color:var(--muted);line-height:1.5">Описание станции...</div>
+    </div>
+  </div>  <script>
+    // Station data
+    const stations = {
+      olhova: {
+        name: 'Ольховая',
+        short: 'Первая станция линии, вход в жилой массив Кудряшовского.',
+        desc: 'Ольховая — просторная станция с зелёной отделкой и большим вестибюлем. Здесь расположен крупный пересадочный узел автобусных маршрутов и велопарковка; популярна у семей и студентов.'
+      },
+      medik: {
+        name: 'Медик',
+        short: 'Станция рядом с крупным медицинским кластером.',
+        desc: 'Медик обслуживает несколько клиник и институтов здравоохранения. Интерьер выполнен с акцентом на свет и чистые поверхности, много указателей для пациентов.'
+      },
+      sport: {
+        name: 'Спортивная',
+        short: 'Близко к стадиону и спортивным площадкам.',
+        desc: 'Спортивная — станция с яркой динамикой: стенды с инфографикой о событиях, широкие лестницы и отдельные входы для больших потоков болельщиков.'
+      },
+      hutorok: {
+        name: 'Хуторок',
+        short: 'Комфортная станция в жилой зоне с фокусом на спокойствие.',
+        desc: 'Хуторок окружён низкой застройкой и парком. Станция небольшая, но уютная — с зелёными панелями и скамейками на платформах.'
+      },
+      zheleznye: {
+        name: 'Железные врата',
+        short: 'Станция на границе промышленной и жилой зон.',
+        desc: 'Железные врата — архитектурно строгая станция с большими сводами. Рядом расположены промышленные предприятия и логистические центры.'
+      },
+      krasnaya: {
+        name: 'Красная',
+        short: 'Центральная пересадочная станция линии.',
+        desc: 'Красная — главный узел линии с торговыми коридорами и множеством входов. Отделка выполнена в фирменных красных тонах, есть кафе и точки сервиса.'
+      },
+      voley: {
+        name: 'Волейбольная поляна',
+        short: 'Конечная станция у спортивной зоны и рекреационной поляны.',
+        desc: 'Волейбольная поляна — современная станция, ориентированная на посетителей спортивных комплексов и семейный отдых. Большая площадь выходов и планируемые веломаршруты.'
+      }
+    };
+
+    // modal handling
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    const modalSub = document.getElementById('modal-sub');
+    const modalClose = document.getElementById('modal-close');
+
+    function openModal(id){
+      const s = stations[id];
+      if(!s) return;
+      modalTitle.textContent = s.name;
+      modalSub.textContent = 'Линия: Красная — Станция: ' + s.name;
+      modalBody.textContent = s.desc;
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
+    }
+
+    function closeModal(){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+
+    // attach click handlers to station groups
+    document.querySelectorAll('.station').forEach(g => {
+      g.addEventListener('click', ()=>{
+        const id = g.getAttribute('data-id');
+        openModal(id);
+      });
+      g.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') openModal(g.getAttribute('data-id')) });
+      g.setAttribute('tabindex',0);
+      g.style.outline='none';
+    });
+
+    // accessibility: close on Escape
+    window.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal(); });
+  </script></body>
+          </html>
